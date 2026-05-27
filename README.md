@@ -9,10 +9,14 @@
 
 My Courses is a full-stack course management application with:
 
-- Frontend: React + Vite + Tailwind CSS
-- Backend: Node.js + Express + MongoDB (Mongoose)
-- Auth: Cookie-based JWT access and refresh token flow
-- Demo Support: UI can run in demo mode even when backend is unavailable
+- **Interactive Workspace**: Swappable views for Dashboard, My Courses, Enrollment, and Progress pages.
+- **My Courses Portal**: Grid & list view toggles for modules, live search, status filtration, and topic completion progress indicators.
+- **Enrollment Center**: Register for open classes, withdraw from enrolled ones, or register/cancel waitlisted modules.
+- **Academic Progress**: Visualized analytics with cumulative GPA tracker, completion rates, workload metrics, and semester-wise timeline reports.
+- **Frontend**: React + Vite + Tailwind CSS
+- **Backend**: Node.js + Express + MongoDB (Mongoose) with extended "Waitlisted" status support
+- **Auth**: Cookie-based JWT access and refresh token flow
+- **Demo Support**: UI can run in demo mode even when backend is unavailable
 
 ## Current Repository Structure
 
@@ -68,7 +72,10 @@ Group29Finalproject/
         │   ├── courses/
         │   │   ├── CourseCard.jsx
         │   │   ├── CourseForm.jsx
-        │   │   └── CourseModal.jsx
+        │   │   ├── CourseModal.jsx
+        │   │   ├── MyCoursesView.jsx
+        │   │   ├── EnrollmentView.jsx
+        │   │   └── ProgressView.jsx
         │   └── ui/
         │       ├── ActionButton.jsx
         │       ├── Notice.jsx
