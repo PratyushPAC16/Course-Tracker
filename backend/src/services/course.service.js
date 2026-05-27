@@ -12,8 +12,11 @@ function createError(status, message) {
 
 function normalizeEnrollStatus(input) {
   const raw = String(input || "").trim().toLowerCase();
-  if (raw === "not enrolled" || raw === "completed" || raw === "done") {
+  if (raw === "not enrolled" || raw === "completed" || raw === "done" || raw === "open") {
     return "Not Enrolled";
+  }
+  if (raw === "waitlisted" || raw === "waitlist") {
+    return "Waitlisted";
   }
   return "Enrolled";
 }

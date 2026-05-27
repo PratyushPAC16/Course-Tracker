@@ -92,6 +92,7 @@ export default function CourseForm({
           >
             <option value="Enrolled">Enrolled</option>
             <option value="Not Enrolled">Not Enrolled</option>
+            <option value="Waitlisted">Waitlisted</option>
           </select>
         </label>
 

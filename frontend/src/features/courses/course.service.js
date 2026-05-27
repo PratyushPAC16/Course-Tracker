@@ -2,8 +2,11 @@ import { http } from "../../lib/http";
 
 function normalizeStatus(rawStatus) {
   const status = String(rawStatus || "").toLowerCase();
-  if (status.includes("not enrolled") || status.includes("completed")) {
+  if (status.includes("not enrolled") || status.includes("completed") || status.includes("open")) {
     return "Not Enrolled";
+  }
+  if (status.includes("waitlist")) {
+    return "Waitlisted";
   }
   return "Enrolled";
 }

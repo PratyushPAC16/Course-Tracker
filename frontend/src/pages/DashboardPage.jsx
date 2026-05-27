@@ -10,9 +10,11 @@ import {
   Search,
   Settings,
   X,
+  Sparkles,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import MyCoursesView from "../components/courses/MyCoursesView";
 import CourseForm from "../components/courses/CourseForm";
 import CourseModal from "../components/courses/CourseModal";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
@@ -161,6 +163,7 @@ export default function DashboardPage() {
   const [modalMessage, setModalMessage] = useState("");
   const [modalCourse, setModalCourse] = useState(null);
   const [expandedId, setExpandedId] = useState(null);
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   const isEditing = Boolean(formState.id);
   const username = auth?.username || auth?.email || "student";
@@ -387,14 +390,14 @@ export default function DashboardPage() {
           </div>
 
           {/* Nav links */}
-          {/* Nav links */}
           <div className="ml-5 hidden md:flex items-center gap-0.5">
-            {NAV_LINKS.map((item, i) => (
+            {NAV_LINKS.map((item) => (
               <button
                 key={item.key}
                 type="button"
-                className="px-3.5 py-1.5 text-sm rounded-lg transition-colors"
-                style={i === 0
+                onClick={() => setActiveTab(item.key)}
+                className="px-3.5 py-1.5 text-sm rounded-lg transition-all"
+                style={activeTab === item.key
                   ? { color: "#1a263f", fontWeight: 700, background: "#eef1f9" }
                   : { color: "#7a8dac", fontWeight: 500 }}
               >
@@ -448,7 +451,8 @@ export default function DashboardPage() {
         </nav>
 
         {/* ── BODY: two-column ───────────────────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-0 p-5 sm:p-6 gap-5">
+        {activeTab === "dashboard" && (
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] p-5 sm:p-6 gap-5 animate-fadeIn">
 
           {/* ══ LEFT COLUMN ═══════════════════════════════════════════ */}
           <div className="flex flex-col gap-5">
@@ -779,7 +783,21 @@ export default function DashboardPage() {
               />
             </div>
           </div>
-        </div>
+        )}
+
+        {activeTab === "courses" && (
+          <MyCoursesView
+            courses={normalizedCourses}
+            onAddCourse={openAddForm}
+            onEditCourse={startEdit}
+            onDeleteCourse={requestDelete}
+            onViewCourse={(course) => {
+              setModalCourse(course);
+              setModalOpen(true);
+            }}
+            loading={loadingCourses}
+          />
+        )}
       </div>
 
       {/* ── Course Form Modal ────────────────────────────────────────── */}

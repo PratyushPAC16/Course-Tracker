@@ -29,7 +29,7 @@ const courseSchema = new mongoose.Schema(
     enrollstatus: {
       type: String,
       required: true,
-      enum: ["Enrolled", "Not Enrolled"],
+      enum: ["Enrolled", "Not Enrolled", "Waitlisted"],
       default: "Enrolled",
       index: true,
     },
