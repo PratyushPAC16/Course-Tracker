@@ -15,6 +15,8 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyCoursesView from "../components/courses/MyCoursesView";
+import EnrollmentView from "../components/courses/EnrollmentView";
+import ProgressView from "../components/courses/ProgressView";
 import CourseForm from "../components/courses/CourseForm";
 import CourseModal from "../components/courses/CourseModal";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
@@ -339,6 +341,35 @@ export default function DashboardPage() {
       }
     } finally {
       setLoadingSave(false);
+    }
+  }
+
+  async function handleUpdateStatus(course, nextStatus) {
+    setLoadingCourses(true);
+    setListMessage({ text: "", tone: "error" });
+    if (demoMode) {
+      setCourses((prev) =>
+        prev.map((item) =>
+          item.id === course.id ? { ...item, enrollstatus: nextStatus } : item
+        )
+      );
+      setLoadingCourses(false);
+      return;
+    }
+    try {
+      await updateCourse({
+        ...course,
+        enrollstatus: nextStatus,
+      });
+      await loadCourseList();
+    } catch (error) {
+      if (error.code === 401 || error.message === "Unauthorized") {
+        activateDemoMode("Protected API requires login. Demo data is enabled.");
+      } else {
+        setListMessage({ text: error.message || "Unable to update enrollment status.", tone: "error" });
+      }
+    } finally {
+      setLoadingCourses(false);
     }
   }
 
@@ -798,6 +829,18 @@ export default function DashboardPage() {
             }}
             loading={loadingCourses}
           />
+        )}
+
+        {activeTab === "enrollment" && (
+          <EnrollmentView
+            courses={normalizedCourses}
+            onUpdateStatus={handleUpdateStatus}
+            loading={loadingCourses}
+          />
+        )}
+
+        {activeTab === "progress" && (
+          <ProgressView courses={normalizedCourses} />
         )}
       </div>
 
